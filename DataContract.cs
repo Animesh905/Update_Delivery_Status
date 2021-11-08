@@ -12,10 +12,12 @@ namespace Update_Delivery_Status
     internal class DataContract
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        string InsertSP_Name = ConfigurationManager.AppSettings["InsertSP_Name"].ToString();
         public DataTable SelectData()
         {
             DataTable dataTable = new DataTable();
             string SP_Name = ConfigurationManager.AppSettings["SP_Name"].ToString();
+            
             int i = 1;
             while(i<4)
             {
@@ -60,17 +62,21 @@ namespace Update_Delivery_Status
             {
                 using (var con=new SqlConnection(connectionString))
                 {
-                    using (var cmd = new SqlCommand(InsertSP_Name,connectionString))
+                    using (var cmd = new SqlCommand(InsertSP_Name,con))
                     {
                         using (var da = new SqlDataAdapter(cmd))
                         {
-                            cmd.CommandType= CommandType.StoredProcedure;   
-                            cmd.Parameters.Add("")
+                            cmd.CommandType= CommandType.StoredProcedure;
+                            cmd.Parameters.Add("");
                         }
                     }
                 }
             }
-
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return -1;
         }
 
         public int UpdateData()

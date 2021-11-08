@@ -10,7 +10,10 @@ namespace Update_Delivery_Status
     {
         static void Main(string[] args)
         {
-            ReadWrite_ExcelFile.ReadSheet();
+            string FilePath;
+            Console.Write("Enter File Path: ");
+            FilePath = Console.ReadLine().ToString();
+            ReadWrite_ExcelFile.ReadSheet(FilePath);
             Console.ReadKey();
         }
     }

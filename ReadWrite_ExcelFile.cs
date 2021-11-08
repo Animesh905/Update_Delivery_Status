@@ -11,12 +11,12 @@ namespace Update_Delivery_Status
     {
         public static string ConnectionString = ConfigurationManager.ConnectionStrings["ExcelConnection"].ToString();
 
-        public static DataTable ReadSheet()
+        public static DataTable ReadSheet(string FilePath)
         {
             using (OleDbConnection conn = new OleDbConnection())
             {
                 DataTable dt = new DataTable();
-                string Import_FileName = @"C:\Users\Animesh\Downloads\sep25_to_26_2000187576(1).xlsx";
+                string Import_FileName = FilePath;
                 string fileExtension = Path.GetExtension(Import_FileName);
                 if (fileExtension == ".xls")
                     conn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Import_FileName + ";" + "Extended Properties='Excel 8.0;HDR=YES;'";
