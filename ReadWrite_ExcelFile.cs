@@ -21,11 +21,11 @@ namespace Update_Delivery_Status
                 if (fileExtension == ".xls")
                     conn.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Import_FileName + ";" + "Extended Properties='Excel 8.0;HDR=YES;'";
                 if (fileExtension == ".xlsx")
-                    conn.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Import_FileName + ";" + "Extended Properties='Excel 12.0;HDR=NO;'";
+                    conn.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Import_FileName + ";" + "Extended Properties='Excel 12.0;HDR=YES;'";
                 
                 using (OleDbCommand comm = new OleDbCommand())
                 {
-                    comm.CommandText = "Select * FROM [Sheet1$]";
+                    comm.CommandText = "Select MSG FROM [Sheet1$]";
 
                     comm.Connection = conn;
 
@@ -33,6 +33,12 @@ namespace Update_Delivery_Status
                     {
                         da.SelectCommand = comm;
                         da.Fill(dt);
+                        foreach(DataRow dr in dt.Rows)
+                        {
+                            string data = dr["MSG"].ToString();
+                            data = data.Replace("'", "");
+                            dr["MSG"] = data;
+                        }
                         return dt;
                     }
 
